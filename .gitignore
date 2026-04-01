@@ -1,6 +1,7 @@
 # Environment variables and credentials (NEVER COMMIT THESE!)
 .env
 tasty_token.json
+tasty_session.json
 streamer_token.json
 streamer_token.txt
 
