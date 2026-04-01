@@ -270,7 +270,7 @@ def main():
     if 'gex_calculator' not in st.session_state:
         st.session_state.gex_calculator = None
     if 'auto_refresh' not in st.session_state:
-        st.session_state.auto_refresh = False
+        st.session_state.auto_refresh = True
     if 'last_fetch_time' not in st.session_state:
         st.session_state.last_fetch_time = 0
     if 'option_data' not in st.session_state:
@@ -279,6 +279,8 @@ def main():
         st.session_state.gex_view = "Calls vs Puts"
     if 'volume_view' not in st.session_state:
         st.session_state.volume_view = "Calls vs Puts"
+    if 'auto_fetched_on_load' not in st.session_state:
+        st.session_state.auto_fetched_on_load = False
 
     # Sidebar controls
     with st.sidebar:
@@ -344,7 +346,12 @@ def main():
         # Manual fetch button
         fetch_triggered = st.button("🔄 Fetch Data", type="primary", width='stretch')
 
-        # Auto-fetch logic
+        # Auto-fetch on first page load (no click needed)
+        if not st.session_state.auto_fetched_on_load:
+            st.session_state.auto_fetched_on_load = True
+            fetch_triggered = True
+
+        # Auto-refresh logic
         if st.session_state.auto_refresh:
             current_time = time.time()
             if current_time - st.session_state.last_fetch_time >= refresh_interval:
